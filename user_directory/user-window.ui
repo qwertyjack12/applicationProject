@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1650</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>850</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>Application project</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.840909, y2:0.881, stop:0 rgba(47, 58, 86, 255), stop:1 rgba(64, 109, 150, 255));
+font-family: Comic Sans MS;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QFrame" name="filtrationFrame">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">color: white;
+font-weight: bold;
+font-size: 20pt;
+background-color: none;
+border: none;</string>
+         </property>
+         <property name="text">
+          <string>Фильтрация заявки</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item>
+          <widget class="QComboBox" name="filtrationComboBox">
+           <property name="styleSheet">
+            <string notr="true">color: white;
+font-size: 15pt;</string>
+           </property>
+           <property name="placeholderText">
+            <string>Выбрать статус</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Новая</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>В работе</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Выполнена</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Закрыта</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Все</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="filtrationButton">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+           </property>
+           <property name="text">
+            <string>Фильтровать</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="tableFrame">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QTableView" name="tableView">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTableView{
+color: white;
+border: 2px solid rgda(255, 255, 255, 30);
+border-bottom-right-radius: 7px;
+border-bottom-left-radius: 7px;
+gridline-color:white;
+border: 2px solid white;
+font-family: Arial;
+font-size: 14pt;
+}
+
+QHeaderView {
+background-color: lightgray;
+color: black;
+font-size: 16px;
+font-family: Arial;
+}
+
+QTableView::item:selected{
+border: none;
+color: rgda(255,255,255);
+background-color: rgda(255,255,255,50);
+}</string>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAsNeeded</enum>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="verticalScrollMode">
+          <enum>QAbstractItemView::ScrollPerPixel</enum>
+         </property>
+         <property name="showGrid">
+          <bool>true</bool>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="createApplicationButton">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+           </property>
+           <property name="text">
+            <string>Создать заявку</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="editApplicationButton">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+           </property>
+           <property name="text">
+            <string>Редактировать заявку</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="workReportButton">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+           </property>
+           <property name="text">
+            <string>Акт о выполненной заявке</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1650</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="program_menu">
+    <property name="title">
+     <string>Программа</string>
+    </property>
+    <widget class="QMenu" name="help_menu">
+     <property name="title">
+      <string>Справка</string>
+     </property>
+     <addaction name="about_as_action"/>
+    </widget>
+    <addaction name="help_menu"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Учетная запись</string>
+    </property>
+    <addaction name="logout_action"/>
+   </widget>
+   <addaction name="program_menu"/>
+   <addaction name="menu"/>
+  </widget>
+  <action name="about_as_action">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="logout_action">
+   <property name="text">
+    <string>Выйти из учетной записи</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="res-rs.qrc"/>
+ </resources>
+ <connections/>
+</ui>

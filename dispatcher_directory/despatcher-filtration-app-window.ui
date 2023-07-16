@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>640</width>
+    <height>660</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>640</width>
+    <height>740</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Filtration window</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.840909, y2:0.881, stop:0 rgba(47, 58, 86, 255), stop:1 rgba(64, 109, 150, 255));
+font-family: Comic Sans MS;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>621</width>
+      <height>721</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="filtrationButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>630</y>
+       <width>500</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+font-size: 20pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+     </property>
+     <property name="text">
+      <string>Фильтровать</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="line_address">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>601</width>
+       <height>95</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+font-weight: bold;
+font-size: 25pt;</string>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Адрес</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="line_responsible">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>600</width>
+       <height>95</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+font-weight: bold;
+font-size: 25pt;</string>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Ответсвенный</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="line_date_of_creation">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>310</y>
+       <width>600</width>
+       <height>95</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+font-weight: bold;
+font-size: 25pt;</string>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Дата создания</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="line_date_of_adoption">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>420</y>
+       <width>600</width>
+       <height>95</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+font-weight: bold;
+font-size: 25pt;</string>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Дата начала обработки</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="statusComboBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>601</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+font-size: 15pt;</string>
+     </property>
+     <property name="placeholderText">
+      <string>Статус</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Новая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>В работе</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Выполнена</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Закрыта</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Все</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="reset_filtrButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>540</y>
+       <width>500</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+font-size: 20pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+     </property>
+     <property name="text">
+      <string>Сбросить фильтры</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

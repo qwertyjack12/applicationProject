@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1100</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Application admin window</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.840909, y2:0.881, stop:0 rgba(47, 58, 86, 255), stop:1 rgba(64, 109, 150, 255));
+font-family: Comic Sans MS;
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_7">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QFrame" name="frame">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>520</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="whatsThis">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="styleSheet">
+                  <string notr="true">color: white;
+font-weight: bold;
+font-size: 20pt;
+background-color: none;
+border: none;</string>
+                 </property>
+                 <property name="text">
+                  <string>Поиск пользователя</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <property name="spacing">
+                    <number>10</number>
+                   </property>
+                   <item>
+                    <widget class="QLineEdit" name="id_lineEdit">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>365</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: white;
+font-size: 16pt;</string>
+                     </property>
+                     <property name="placeholderText">
+                      <string notr="true">Введите id пользователя</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="find_user_btn">
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Поиск</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="whatsThis">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_4">
+               <item>
+                <widget class="QLabel" name="label_4">
+                 <property name="styleSheet">
+                  <string notr="true">color: white;
+font-weight: bold;
+font-size: 20pt;
+background-color: none;
+border: none;</string>
+                 </property>
+                 <property name="text">
+                  <string>Фильтрация заявки</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <widget class="QComboBox" name="filtrationComboBox">
+                   <property name="styleSheet">
+                    <string notr="true">color: white;
+font-size: 15pt;</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Выбрать статус</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>В работе</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Выполнена</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Закрыта</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Все</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="filtrationButton">
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Фильтровать</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QFrame" name="frame_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="spacing">
+                <number>10</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="select_all_btn_">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Выделить всех</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="reset_select_btn_">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Сбросить</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QTableView" name="tableView_users">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>500</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::CustomContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QTableView{
+color: white;
+border: 2px solid rgda(255, 255, 255, 30);
+border-bottom-right-radius: 7px;
+border-bottom-left-radius: 7px;
+gridline-color:white;
+border: 2px solid white;
+font-family: Arial;
+font-size: 14pt;
+}
+
+QHeaderView {
+background-color: lightgray;
+color: black;
+font-size: 16px;
+font-family: Arial;
+}
+
+QTableView::item{
+border: none;
+border-bottom: rgda(255,255,255,50);
+}
+
+QTableView::item:selected{
+border: none;
+color: rgda(255,255,255);
+background-color: rgda(255,255,255,50);
+}</string>
+                 </property>
+                 <property name="verticalScrollBarPolicy">
+                  <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="horizontalScrollBarPolicy">
+                  <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="sizeAdjustPolicy">
+                  <enum>QAbstractScrollArea::AdjustToContents</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <property name="verticalScrollMode">
+                  <enum>QAbstractItemView::ScrollPerPixel</enum>
+                 </property>
+                 <property name="sortingEnabled">
+                  <bool>true</bool>
+                 </property>
+                 <attribute name="horizontalHeaderCascadingSectionResizes">
+                  <bool>true</bool>
+                 </attribute>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QTableView" name="tableView_applications">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::CustomContextMenu</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QTableView{
+color: white;
+border: 2px solid rgda(255, 255, 255, 30);
+border-bottom-right-radius: 7px;
+border-bottom-left-radius: 7px;
+gridline-color:white;
+border: 2px solid white;
+font-family: Arial;
+font-size: 14pt;
+}
+
+QHeaderView {
+background-color: lightgray;
+color: black;
+font-size: 16px;
+font-family: Arial;
+}
+
+QTableView::item:selected{
+border: none;
+color: rgda(255,255,255);
+background-color: rgda(255,255,255,50);
+}</string>
+               </property>
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAsNeeded</enum>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QAbstractScrollArea::AdjustToContents</enum>
+               </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="verticalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
+               </property>
+               <property name="showGrid">
+                <bool>true</bool>
+               </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <attribute name="horizontalHeaderCascadingSectionResizes">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="verticalHeaderCascadingSectionResizes">
+                <bool>false</bool>
+               </attribute>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_5">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="processingUserButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>510</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+           </property>
+           <property name="text">
+            <string>Обработать пользователя</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="processingAppButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+               </property>
+               <property name="text">
+                <string>Обработать заявку</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="reportsAppsButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+               </property>
+               <property name="text">
+                <string>Отчетность</string>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="program_menu">
+    <property name="title">
+     <string>Программа</string>
+    </property>
+    <widget class="QMenu" name="help_menu">
+     <property name="title">
+      <string>Справка</string>
+     </property>
+     <addaction name="about_as_action"/>
+    </widget>
+    <addaction name="help_menu"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Учетная запись</string>
+    </property>
+    <addaction name="logout_action"/>
+   </widget>
+   <addaction name="program_menu"/>
+   <addaction name="menu"/>
+  </widget>
+  <action name="about_as_action">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="logout_action">
+   <property name="text">
+    <string>Выйти из учетной записи</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

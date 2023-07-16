@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>744</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>850</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Application dispatcher window</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.840909, y2:0.881, stop:0 rgba(47, 58, 86, 255), stop:1 rgba(64, 109, 150, 255));
+font-family: Comic Sans MS;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QFrame" name="tableFrame">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="filtrationFrame">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(255,255,255, 30);
+border: 1px solid rgba(255,255,255,40);
+border-radius: 7px;</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="styleSheet">
+                 <string notr="true">color: white;
+font-weight: bold;
+font-size: 20pt;
+background-color: none;
+border: none;</string>
+                </property>
+                <property name="text">
+                 <string>Фильтрация заявок</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <property name="spacing">
+                 <number>10</number>
+                </property>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_7">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <widget class="QComboBox" name="status_comboBox">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: white;
+font-size: 15pt;</string>
+                      </property>
+                      <property name="placeholderText">
+                       <string>Выбрать статус</string>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>Новая</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>В работе</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Выполнена</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Закрыта</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="responsible_comboBox">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: white;
+font-size: 15pt;</string>
+                      </property>
+                      <property name="placeholderText">
+                       <string>Выбрать ответственного</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <property name="spacing">
+                     <number>10</number>
+                    </property>
+                    <item>
+                     <widget class="QComboBox" name="region_comboBox">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: white;
+font-size: 15pt;</string>
+                      </property>
+                      <property name="placeholderText">
+                       <string>Регион</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_2">
+                      <item>
+                       <widget class="QRadioButton" name="city_radioButton">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font-size: 15pt;
+color: white;
+background-color: none;
+border: none;</string>
+                        </property>
+                        <property name="text">
+                         <string>Город</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="locality_radioButton">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font-size: 15pt;
+color: white;
+background-color: none;
+border: none;</string>
+                        </property>
+                        <property name="text">
+                         <string>Населенный пункт</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="city_comboBox">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: white;
+font-size: 15pt;</string>
+                      </property>
+                      <property name="placeholderText">
+                       <string>Город</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="street_comboBox">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: white;
+font-size: 15pt;</string>
+                      </property>
+                      <property name="placeholderText">
+                       <string>Улица</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <property name="spacing">
+                     <number>10</number>
+                    </property>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_10">
+                      <property name="spacing">
+                       <number>10</number>
+                      </property>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_8">
+                        <item>
+                         <widget class="QLabel" name="label_4">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">color: white;
+font-size: 15pt;</string>
+                          </property>
+                          <property name="text">
+                           <string>Дата создания</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="line_date_of_creation_after">
+                          <property name="enabled">
+                           <bool>true</bool>
+                          </property>
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="cursor">
+                           <cursorShape>ArrowCursor</cursorShape>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QLineEdit {
+    font-size: 15pt;
+    color: white;
+}</string>
+                          </property>
+                          <property name="inputMask">
+                           <string/>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
+                          </property>
+                          <property name="placeholderText">
+                           <string>от</string>
+                          </property>
+                          <property name="clearButtonEnabled">
+                           <bool>false</bool>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="line_date_of_creation_before">
+                          <property name="enabled">
+                           <bool>true</bool>
+                          </property>
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="cursor">
+                           <cursorShape>ArrowCursor</cursorShape>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">color: white;
+font-size: 15pt;</string>
+                          </property>
+                          <property name="inputMask">
+                           <string/>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
+                          </property>
+                          <property name="placeholderText">
+                           <string>до</string>
+                          </property>
+                          <property name="clearButtonEnabled">
+                           <bool>false</bool>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_9">
+                        <item>
+                         <widget class="QLabel" name="label_5">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">color: white;
+font-size: 15pt;</string>
+                          </property>
+                          <property name="text">
+                           <string>Дата закрытия</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="line_closing_date_after">
+                          <property name="enabled">
+                           <bool>true</bool>
+                          </property>
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="cursor">
+                           <cursorShape>ArrowCursor</cursorShape>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">color: white;
+font-size: 15pt;</string>
+                          </property>
+                          <property name="inputMask">
+                           <string/>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
+                          </property>
+                          <property name="placeholderText">
+                           <string>от</string>
+                          </property>
+                          <property name="clearButtonEnabled">
+                           <bool>false</bool>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="line_cloxing_date_before">
+                          <property name="enabled">
+                           <bool>true</bool>
+                          </property>
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="cursor">
+                           <cursorShape>ArrowCursor</cursorShape>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">color: white;
+font-size: 15pt;</string>
+                          </property>
+                          <property name="inputMask">
+                           <string/>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
+                          </property>
+                          <property name="placeholderText">
+                           <string>до</string>
+                          </property>
+                          <property name="clearButtonEnabled">
+                           <bool>false</bool>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_11">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="filtrationBtn">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>Фильтровать</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="reset_filtrationBtn">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>Сбросить фильтр</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableView" name="tableView">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QTableView{
+color: white;
+border-bottom-right-radius: 7px;
+border-bottom-left-radius: 7px;
+gridline-color:white;
+border: 2px solid white;
+font-family: Arial;
+font-size: 14pt;
+}
+
+QHeaderView {
+background-color: lightgray;
+color: black;
+font-size: 16px;
+font-family: Arial;
+}
+
+QTableView::item:selected{
+border: none;
+color: rgda(255,255,255);
+background-color: rgda(255,255,255,50);
+}</string>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="verticalScrollMode">
+            <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+           <property name="showGrid">
+            <bool>true</bool>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="editApplicationButton">
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+color: white;
+border-radius: 7px;
+font-weight: bold;
+border-color: white;
+font-size: 15pt;
+}
+QPushButton:hover{
+color: rgb(141, 170, 255);
+}
+QPushButton:pressed{
+background-color: rgdargba(255, 255, 255, 70);
+}</string>
+             </property>
+             <property name="text">
+              <string>Обработать заявку</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="program_menu">
+    <property name="title">
+     <string>Программа</string>
+    </property>
+    <widget class="QMenu" name="help_menu">
+     <property name="title">
+      <string>Справка</string>
+     </property>
+     <addaction name="about_as_action"/>
+    </widget>
+    <addaction name="help_menu"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Учетная запись</string>
+    </property>
+    <addaction name="logout_action"/>
+   </widget>
+   <addaction name="program_menu"/>
+   <addaction name="menu"/>
+  </widget>
+  <action name="about_as_action">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="logout_action">
+   <property name="text">
+    <string>Выйти из учетной записи</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

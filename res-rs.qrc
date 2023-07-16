@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="ico">
+    <file>resources/icons/cross-32.png</file>
+    <file>resources/icons/cat.png</file>
+    <file>resources/icons/error.png</file>
+    <file>resources/icons/bd_error.png</file>
+    <file>resources/icons/close.png</file>
+  </qresource>
+</RCC>
