@@ -1,5 +1,6 @@
 # applicationProject
 Hello, it's my first project, that was written on python with PostgreSQL.
+CREATE SCRIPTS are provided in this file and INSERT SCRIPTS are located in the data_tables directory
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 SQL-code for create database
