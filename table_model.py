@@ -71,6 +71,7 @@ class TableModel_with_CheckBox(QAbstractTableModel):
         super(TableModel_with_CheckBox, self).__init__()
         self._data = data
         self._headers = headers
+        self._background_color = dict()
         self._checked_items = [False] * len(data)  # список для хранения состояния чекбоксов
 
     def rowCount(self, parent=QModelIndex()):
@@ -79,12 +80,22 @@ class TableModel_with_CheckBox(QAbstractTableModel):
     def columnCount(self, parent=QModelIndex()):
         return len(self._data[0]) + 1  # добавляем 1 столбец для чекбоксов
 
+    def column_by_name(self, column_name):
+        for column in range(self.columnCount()):
+            header_data = self.headerData(column, Qt.Orientation.Horizontal, Qt.ItemDataRole.DisplayRole)
+            if header_data == column_name:
+                return column
+        return -1
+
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if role == Qt.ItemDataRole.DisplayRole:
             if index.column() == 0:  # если столбец с чекбоксами
                 return None
             return str(self._data[index.row()][index.column() - 1])
-        elif role == Qt.ItemDataRole.CheckStateRole and index.column() == 0:  # если столбец с чекбоксами
+        if role == Qt.ItemDataRole.BackgroundRole:
+            if index in self._background_color:
+                return self._background_color[index]
+        if role == Qt.ItemDataRole.CheckStateRole and index.column() == 0:  # если столбец с чекбоксами
             return Qt.Checked if self._checked_items[index.row()] else Qt.Unchecked
         return None
 
@@ -92,6 +103,10 @@ class TableModel_with_CheckBox(QAbstractTableModel):
         if role == Qt.ItemDataRole.CheckStateRole and index.column() == 0:  # если столбец с чекбоксами
             self._checked_items[index.row()] = value
             self.dataChanged.emit(index, index)
+            return True
+        if role == Qt.ItemDataRole.BackgroundRole:
+            self._background_color[index] = value
+            self.dataChanged.emit(index, index, [Qt.ItemDataRole.BackgroundRole])
             return True
         return super().setData(index, value, role)
 

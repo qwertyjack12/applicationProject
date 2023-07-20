@@ -25,9 +25,12 @@ from admin_directory.admin_application_processing_window_ui import \
 
 from program_info_ui import Ui_MainWindow as program_info_MainWindow
 
+from main_form_ui import Ui_MainWindow as main_form_MainWindow
+
 from errors_directory.date_filtration_error_ui import Ui_MainWindow as date_filtration_error_MainWindow
 from errors_directory.padding_error_ui import Ui_MainWindow as padding_error_MainWindow
 from errors_directory.select_error_ui import Ui_MainWindow as select_error_MainWindow
+from errors_directory.permission_error_ui import Ui_MainWindow as permission_error_MainWindow
 
 from errors_directory.db_connect_error_window import Ui_MainWindow as db_connect_error_MainWindow
 from db.connection_db import Data
@@ -52,22 +55,23 @@ class ApplicationProject(QMainWindow):
 
         self.open_income_window()
 
-    def view_admin_data_of_applications(self, filter=None):
+    def view_admin_data_of_applications(self, params=None):
         cursor = self.conn.cursor
 
         apps_table_view = self.ui_admin_window.tableView_applications
 
-        if filter is None or filter == 'Все' or filter == '':
-            sql_query = f"SELECT application_id, creator, responsible_mngr, status, responsible, description FROM applications WHERE status != 'Новая'"
+        if params is not None:
+            string_query_dict = ' and '.join([f"{k}='{v}'" for k, v in params.items()])
+            sql_query = f"SELECT application_id, creator, responsible_mngr, status, responsible, description, address FROM applications WHERE " + string_query_dict
         else:
-            sql_query = f"SELECT application_id, creator, responsible_mngr, status, responsible, description FROM applications WHERE status = '{filter}'"
+            sql_query = f"SELECT application_id, creator, responsible_mngr, status, responsible, description, address FROM applications"
 
         cursor.execute(sql_query)
         rows = cursor.fetchall()
 
         result = [[el if el is not None else '' for el in row] for row in rows]
 
-        headers = ['№ заявки', 'Пользователь', 'Диспетчер', 'Статус', 'Ответственный', 'Описание']
+        headers = ['№ заявки', 'Пользователь', 'Диспетчер', 'Статус', 'Ответственный', 'Описание', 'Адрес']
 
         self.admin_app_model = TableModel(result, headers)
 
@@ -117,6 +121,8 @@ class ApplicationProject(QMainWindow):
         users_table_view.setTextElideMode(Qt.TextElideMode.ElideMiddle)
         users_table_view.setWordWrap(True)
         users_table_view.verticalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.set_color(self.admin_user_model)
 
         users_table_view.setModel(self.admin_user_model)
         users_table_view.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
@@ -170,21 +176,88 @@ class ApplicationProject(QMainWindow):
         self.income.close()
 
         self.admin_window = QtWidgets.QMainWindow()
-        self.ui_admin_window = admin_MainWindow()
+        self.ui_admin_window = main_form_MainWindow()
         self.ui_admin_window.setupUi(self.admin_window)
 
+        self.wndw = self.ui_admin_window
         self.view_admin_data_of_applications()
         self.view_admin_data_of_users()
-        self.ui_admin_window.filtrationComboBox.setCurrentIndex(-1)
-        self.ui_admin_window.frame_2.installEventFilter(self)
 
-        self.ui_admin_window.menuBar.setStyleSheet("color: white; font-size: 10pt; font-family: Arial;")
+        self.fill_responsible_combobox(self.ui_admin_window)
+        self.ui_admin_window.status_comboBox.setCurrentIndex(-1)
+        self.ui_admin_window.responsible_comboBox.setCurrentIndex(-1)
+
+        self.ui_admin_window.filtrationFrame.installEventFilter(self)
+        self.fill_combobox(self.ui_admin_window.region_comboBox, self.get_region())
+        self.ui_admin_window.region_comboBox.currentIndexChanged.connect(
+            lambda f: self.update_cities_by_region(window=self.ui_admin_window)
+        )
+        self.ui_admin_window.city_comboBox.currentIndexChanged.connect(
+            lambda f: self.update_streets_by_city(window=self.ui_admin_window)
+        )
+        self.ui_admin_window.city_radioButton.clicked.connect(
+            lambda f: self.update_cities_by_radioButton("Город", self.ui_admin_window)
+        )
+        self.ui_admin_window.locality_radioButton.clicked.connect(
+            lambda f: self.update_cities_by_radioButton("Населенный пункт", self.ui_admin_window)
+        )
+
+        self.ui_admin_window.menubar.setStyleSheet("""
+                                    QMenuBar {
+                                        color: white;
+                                        font-size: 10pt;
+                                        font-family: Arial;
+                                    }
+
+                                    QMenuBar::item:selected {
+                                        background-color: rgb(69, 91, 133);
+                                        font-size: 10pt;
+                                        font-family: Arial;
+                                    }
+
+                                    QMenu {
+                                        background-color: rgb(69, 91, 133);
+                                        color: white;
+                                        font-size: 10pt;
+                                        font-family: Arial;
+                                    }
+
+                                    QMenu::item:selected {
+                                        background-color: rgb(69, 91, 133);
+                                        color: rgb(210, 226, 250);
+                                    }
+                                """)
+        self.ui_admin_window.menu_2.setTitle(self.login)
         self.ui_admin_window.about_as_action.triggered.connect(self.open_program_info_window)
         self.ui_admin_window.logout_action.triggered.connect(
             lambda f: self.logout_program(self.admin_window)
         )
+        self.ui_admin_window.add_user_panel.triggered.connect(self.admin_show_user_panel)
+        self.ui_admin_window.delete_user_panel.triggered.connect(self.admin_hide_user_panel)
+        self.ui_admin_window.simple_filtration_2.triggered.connect(
+            lambda f: self.simple_filtration(self.ui_admin_window)
+        )
+        self.ui_admin_window.advanced_filtration_2.triggered.connect(
+            lambda f: self.advanced_filtration(self.ui_admin_window)
+        )
+
+        self.ui_admin_window.createAppButton.hide()
 
         self.admin_window.show()
+
+        self.create_calendar_date_of_creation_after()
+        self.create_calendar_date_of_creation_before()
+        self.create_calendar_closing_date_after()
+        self.create_calendar_closing_date_before()
+
+        self.ui_admin_window.line_date_of_creation_after.mousePressEvent = self.show_calendar_date_of_creation_after
+        self.calendar_date_of_creation_after.clicked.connect(self.set_date_of_creation_after)
+        self.ui_admin_window.line_date_of_creation_before.mousePressEvent = self.show_calendar_date_of_creation_before
+        self.calendar_date_of_creation_before.clicked.connect(self.set_date_of_creation_before)
+        self.ui_admin_window.line_closing_date_after.mousePressEvent = self.show_calendar_closing_date_after
+        self.calendar_closing_date_after.clicked.connect(self.set_closing_date_after)
+        self.ui_admin_window.line_cloxing_date_before.mousePressEvent = self.show_calendar_closing_date_before
+        self.calendar_closing_date_before.clicked.connect(self.set_closing_date_before)
 
         self.ui_admin_window.tableView_applications.doubleClicked.connect(self.open_admin_app_processing_window)
         self.ui_admin_window.tableView_users.doubleClicked.connect(self.open_admin_user_processing_window)
@@ -192,10 +265,25 @@ class ApplicationProject(QMainWindow):
         self.ui_admin_window.find_user_btn.clicked.connect(self.admin_find_user)
         self.ui_admin_window.select_all_btn_.clicked.connect(self.admin_select_all_users)
         self.ui_admin_window.reset_select_btn_.clicked.connect(self.admin_reset_select_users)
-        self.ui_admin_window.filtrationButton.clicked.connect(self.admin_filtration)
+        self.ui_admin_window.filtrationBtn.clicked.connect(
+            lambda f: self.filtration_data(self.ui_admin_window)
+        )
+        self.ui_admin_window.reset_filtrationBtn.clicked.connect(
+            lambda f: self.reset_filtration(self.ui_admin_window)
+        )
         self.ui_admin_window.processingUserButton.clicked.connect(self.open_admin_user_processing_window)
         self.ui_admin_window.processingAppButton.clicked.connect(self.open_admin_app_processing_window)
         self.ui_admin_window.reportsAppsButton.clicked.connect(self.admin_create_and_open_report)
+
+    def admin_show_user_panel(self):
+        self.ui_admin_window.frame_3.show()
+        self.ui_admin_window.processingUserButton.show()
+        self.ui_admin_window.reportsAppsButton.show()
+
+    def admin_hide_user_panel(self):
+        self.ui_admin_window.frame_3.hide()
+        self.ui_admin_window.processingUserButton.hide()
+        self.ui_admin_window.reportsAppsButton.hide()
 
     def admin_select_all_users(self):
         model = self.admin_user_model
@@ -212,10 +300,6 @@ class ApplicationProject(QMainWindow):
     def admin_find_user(self):
         filter = self.ui_admin_window.id_lineEdit.text()
         self.view_admin_data_of_users(filter)
-
-    def admin_filtration(self):
-        filter_category = self.ui_admin_window.filtrationComboBox.currentText()
-        self.view_admin_data_of_applications(filter_category)
 
     def open_admin_user_processing_window(self):
         self.admin_user_processing = QtWidgets.QMainWindow()
@@ -330,7 +414,7 @@ class ApplicationProject(QMainWindow):
     def view_dispatcher_data(self, filter=None, params=None):
         cursor = self.conn.cursor
 
-        table_view = self.ui_dispatcher_window.tableView
+        table_view = self.ui_dispatcher_window.tableView_applications
 
         if params is not None:
             if "status" not in params:
@@ -392,67 +476,75 @@ class ApplicationProject(QMainWindow):
             if status == 'Новая':
                 model.setData(index, QColor(Qt.GlobalColor.cyan), Qt.ItemDataRole.ForegroundRole)
             elif status == 'В работе':
-                model.setData(index, QColor(Qt.GlobalColor.darkBlue), Qt.ItemDataRole.ForegroundRole)
+                model.setData(index, QColor(Qt.GlobalColor.yellow), Qt.ItemDataRole.ForegroundRole)
             elif status == 'Выполнена':
                 model.setData(index, QColor(Qt.GlobalColor.green), Qt.ItemDataRole.ForegroundRole)
             elif status == 'Закрыта':
-                model.setData(index, QColor(Qt.GlobalColor.black), Qt.ItemDataRole.ForegroundRole)
+                model.setData(index, QColor(Qt.GlobalColor.color0), Qt.ItemDataRole.ForegroundRole)
 
             if row % 2 == 1:
                 for col in range(model.columnCount()):
                     index = model.index(row, col)
-                    model.setData(index, QColor(Qt.GlobalColor.lightGray), Qt.ItemDataRole.BackgroundRole)
+                    model.setData(index, QColor(95, 126, 184), Qt.ItemDataRole.BackgroundRole)
 
-    def fill_responsible_combobox(self):
+    def fill_responsible_combobox(self, window):
         for i in self.dispatcher_get_responsibles():
-            self.ui_dispatcher_window.responsible_comboBox.addItem(i)
+            window.responsible_comboBox.addItem(i)
 
     def show_calendar_date_of_creation_after(self, event):
+        window = self.wndw
         self.calendar_date_of_creation_after.show()
-        geometry = self.ui_dispatcher_window.line_date_of_creation_after.geometry()
-        pos = self.ui_dispatcher_window.line_date_of_creation_after.mapToGlobal(
-            QtCore.QPoint(0, self.ui_dispatcher_window.line_date_of_creation_after.height()))
+        geometry = window.line_date_of_creation_after.geometry()
+        pos = window.line_date_of_creation_after.mapToGlobal(
+            QtCore.QPoint(0, window.line_date_of_creation_after.height()))
         rect = QtCore.QRect(pos, geometry.size())
         self.calendar_date_of_creation_after.setGeometry(rect)
 
     def show_calendar_closing_date_after(self, event):
+        window = self.wndw
         self.calendar_closing_date_after.show()
-        geometry = self.ui_dispatcher_window.line_closing_date_after.geometry()
-        pos = self.ui_dispatcher_window.line_closing_date_after.mapToGlobal(
-            QtCore.QPoint(0, self.ui_dispatcher_window.line_closing_date_after.height()))
+        geometry = window.line_closing_date_after.geometry()
+        pos = window.line_closing_date_after.mapToGlobal(
+            QtCore.QPoint(0, window.line_closing_date_after.height()))
         rect = QtCore.QRect(pos, geometry.size())
         self.calendar_closing_date_after.setGeometry(rect)
 
     def set_date_of_creation_after(self, date):
-        self.ui_dispatcher_window.line_date_of_creation_after.setText(date.toString('dd MM yyyy'))
+        window = self.wndw
+        window.line_date_of_creation_after.setText(date.toString('dd MM yyyy'))
         self.calendar_date_of_creation_after.hide()
 
     def set_closing_date_after(self, date):
-        self.ui_dispatcher_window.line_closing_date_after.setText(date.toString('dd MM yyyy'))
+        window = self.wndw
+        window.line_closing_date_after.setText(date.toString('dd MM yyyy'))
         self.calendar_closing_date_after.hide()
 
     def show_calendar_date_of_creation_before(self, event):
+        window = self.wndw
         self.calendar_date_of_creation_before.show()
-        geometry = self.ui_dispatcher_window.line_date_of_creation_before.geometry()
-        pos = self.ui_dispatcher_window.line_date_of_creation_before.mapToGlobal(
-            QtCore.QPoint(0, self.ui_dispatcher_window.line_date_of_creation_before.height()))
+        geometry = window.line_date_of_creation_before.geometry()
+        pos = window.line_date_of_creation_before.mapToGlobal(
+            QtCore.QPoint(0, window.line_date_of_creation_before.height()))
         rect = QtCore.QRect(pos, geometry.size())
         self.calendar_date_of_creation_before.setGeometry(rect)
 
     def show_calendar_closing_date_before(self, event):
+        window = self.wndw
         self.calendar_closing_date_before.show()
-        geometry = self.ui_dispatcher_window.line_cloxing_date_before.geometry()
-        pos = self.ui_dispatcher_window.line_cloxing_date_before.mapToGlobal(
-            QtCore.QPoint(0, self.ui_dispatcher_window.line_cloxing_date_before.height()))
+        geometry = window.line_cloxing_date_before.geometry()
+        pos = window.line_cloxing_date_before.mapToGlobal(
+            QtCore.QPoint(0, window.line_cloxing_date_before.height()))
         rect = QtCore.QRect(pos, geometry.size())
         self.calendar_closing_date_before.setGeometry(rect)
 
     def set_date_of_creation_before(self, date):
-        self.ui_dispatcher_window.line_date_of_creation_before.setText(date.toString('dd MM yyyy'))
+        window = self.wndw
+        window.line_date_of_creation_before.setText(date.toString('dd MM yyyy'))
         self.calendar_date_of_creation_before.hide()
 
     def set_closing_date_before(self, date):
-        self.ui_dispatcher_window.line_cloxing_date_before.setText(date.toString('dd MM yyyy'))
+        window = self.wndw
+        window.line_cloxing_date_before.setText(date.toString('dd MM yyyy'))
         self.calendar_closing_date_before.hide()
 
     def create_calendar_date_of_creation_after(self):
@@ -493,19 +585,19 @@ class ApplicationProject(QMainWindow):
         if self.user_role == USER_ROLES[1]:
             if obj == self.ui_dispatcher_window.filtrationFrame and event.type() == QtCore.QEvent.Type.KeyPress:
                 if event.key() == QtCore.Qt.Key.Key_Return or event.key() == QtCore.Qt.Key.Key_Enter:
-                    self.dispatcher_filtration()
+                    self.filtration_data(self.ui_dispatcher_window)
                     return True
             return super().eventFilter(obj, event)
         elif self.user_role == USER_ROLES[2]:
             if obj == self.ui_user_window.filtrationFrame and event.type() == QtCore.QEvent.Type.KeyPress:
                 if event.key() == QtCore.Qt.Key.Key_Return or event.key() == QtCore.Qt.Key.Key_Enter:
-                    self.user_filtration()
+                    self.filtration_data(self.ui_user_window)
                     return True
             return super().eventFilter(obj, event)
         elif self.user_role == USER_ROLES[0]:
-            if obj == self.ui_admin_window.frame_2 and event.type() == QtCore.QEvent.Type.KeyPress:
+            if obj == self.ui_admin_window.filtrationFrame and event.type() == QtCore.QEvent.Type.KeyPress:
                 if event.key() == QtCore.Qt.Key.Key_Return or event.key() == QtCore.Qt.Key.Key_Enter:
-                    self.admin_filtration()
+                    self.filtration_data(self.ui_admin_window)
                     return True
             return super().eventFilter(obj, event)
 
@@ -540,11 +632,13 @@ class ApplicationProject(QMainWindow):
         self.income.close()
 
         self.dispatcher_window = QtWidgets.QMainWindow()
-        self.ui_dispatcher_window = dispatcher_MainWindow()
+        self.ui_dispatcher_window = main_form_MainWindow()
         self.ui_dispatcher_window.setupUi(self.dispatcher_window)
 
+        self.wndw = self.ui_dispatcher_window
+
         self.view_dispatcher_data()
-        self.fill_responsible_combobox()
+        self.fill_responsible_combobox(self.ui_dispatcher_window)
         self.ui_dispatcher_window.status_comboBox.setCurrentIndex(-1)
         self.ui_dispatcher_window.responsible_comboBox.setCurrentIndex(-1)
 
@@ -564,11 +658,49 @@ class ApplicationProject(QMainWindow):
             lambda f: self.update_cities_by_radioButton("Населенный пункт", self.ui_dispatcher_window)
         )
 
-        self.ui_dispatcher_window.menuBar.setStyleSheet("color: white; font-size: 10pt; font-family: Arial;")
+        self.ui_dispatcher_window.menubar.setStyleSheet("""
+                            QMenuBar {
+                                color: white;
+                                font-size: 10pt;
+                                font-family: Arial;
+                            }
+
+                            QMenuBar::item:selected {
+                                background-color: rgb(69, 91, 133);
+                                font-size: 10pt;
+                                font-family: Arial;
+                            }
+
+                            QMenu {
+                                background-color: rgb(69, 91, 133);
+                                color: white;
+                                font-size: 10pt;
+                                font-family: Arial;
+                            }
+
+                            QMenu::item:selected {
+                                background-color: rgb(69, 91, 133);
+                                color: rgb(210, 226, 250);
+                            }
+                        """)
+        self.ui_dispatcher_window.menu_2.setTitle(self.login)
         self.ui_dispatcher_window.about_as_action.triggered.connect(self.open_program_info_window)
         self.ui_dispatcher_window.logout_action.triggered.connect(
             lambda f: self.logout_program(self.dispatcher_window)
         )
+        self.ui_dispatcher_window.add_user_panel.triggered.connect(self.open_permission_error_window)
+
+        self.ui_dispatcher_window.simple_filtration_2.triggered.connect(
+            lambda f: self.simple_filtration(self.ui_dispatcher_window)
+        )
+        self.ui_dispatcher_window.advanced_filtration_2.triggered.connect(
+            lambda f: self.advanced_filtration(self.ui_dispatcher_window)
+        )
+
+        self.ui_dispatcher_window.frame_3.hide()
+        self.ui_dispatcher_window.processingUserButton.hide()
+        self.ui_dispatcher_window.createAppButton.hide()
+        self.ui_dispatcher_window.reportsAppsButton.hide()
 
         self.dispatcher_window.show()
 
@@ -586,36 +718,73 @@ class ApplicationProject(QMainWindow):
         self.ui_dispatcher_window.line_cloxing_date_before.mousePressEvent = self.show_calendar_closing_date_before
         self.calendar_closing_date_before.clicked.connect(self.set_closing_date_before)
 
-        self.ui_dispatcher_window.tableView.doubleClicked.connect(self.open_dispatcher_application_processing_window)
-
-        self.ui_dispatcher_window.editApplicationButton.clicked.connect(
+        self.ui_dispatcher_window.tableView_applications.doubleClicked.connect(
             self.open_dispatcher_application_processing_window)
-        self.ui_dispatcher_window.filtrationBtn.clicked.connect(self.dispatcher_filtration)
-        self.ui_dispatcher_window.reset_filtrationBtn.clicked.connect(self.dispatcher_reset_filtration)
 
-    def dispatcher_reset_filtration(self):
-        self.ui_dispatcher_window.status_comboBox.setCurrentIndex(-1)
-        self.ui_dispatcher_window.region_comboBox.setCurrentIndex(-1)
-        self.ui_dispatcher_window.street_comboBox.setCurrentIndex(-1)
-        self.ui_dispatcher_window.city_comboBox.setCurrentIndex(-1)
-        self.ui_dispatcher_window.responsible_comboBox.setCurrentIndex(-1)
-        self.ui_dispatcher_window.line_date_of_creation_before.clear()
-        self.ui_dispatcher_window.line_date_of_creation_after.clear()
-        self.ui_dispatcher_window.line_cloxing_date_before.clear()
-        self.ui_dispatcher_window.line_closing_date_after.clear()
+        self.ui_dispatcher_window.processingAppButton.clicked.connect(
+            self.open_dispatcher_application_processing_window)
+        self.ui_dispatcher_window.filtrationBtn.clicked.connect(
+            lambda f: self.filtration_data(self.ui_dispatcher_window)
+        )
+        self.ui_dispatcher_window.reset_filtrationBtn.clicked.connect(
+            lambda f: self.reset_filtration(self.ui_dispatcher_window)
+        )
 
-        self.view_dispatcher_data()
+    def simple_filtration(self, window):
+        self.reset_filtration(window)
+        window.region_comboBox.hide()
+        window.city_comboBox.hide()
+        window.street_comboBox.hide()
+        window.city_radioButton.hide()
+        window.locality_radioButton.hide()
+        window.line_closing_date_after.hide()
+        window.line_cloxing_date_before.hide()
+        window.line_date_of_creation_after.hide()
+        window.line_date_of_creation_before.hide()
+        window.label_4.hide()
+        window.label_5.hide()
 
-    def dispatcher_filtration(self):
-        status = self.ui_dispatcher_window.status_comboBox.currentText()
-        region = self.ui_dispatcher_window.region_comboBox.currentText()
-        city = self.ui_dispatcher_window.city_comboBox.currentText()
-        street = self.ui_dispatcher_window.street_comboBox.currentText()
-        responsible = self.ui_dispatcher_window.responsible_comboBox.currentText()
-        date_of_creation_ot = self.ui_dispatcher_window.line_date_of_creation_after.text()
-        date_of_creation_do = self.ui_dispatcher_window.line_date_of_creation_before.text()
-        closing_date_ot = self.ui_dispatcher_window.line_closing_date_after.text()
-        closing_date_do = self.ui_dispatcher_window.line_cloxing_date_before.text()
+    def advanced_filtration(self, window):
+        self.reset_filtration(window)
+        window.region_comboBox.show()
+        window.city_comboBox.show()
+        window.street_comboBox.show()
+        window.city_radioButton.show()
+        window.locality_radioButton.show()
+        window.line_closing_date_after.show()
+        window.line_cloxing_date_before.show()
+        window.line_date_of_creation_after.show()
+        window.line_date_of_creation_before.show()
+        window.label_4.show()
+        window.label_5.show()
+
+    def reset_filtration(self, window):
+        window.status_comboBox.setCurrentIndex(-1)
+        window.region_comboBox.setCurrentIndex(-1)
+        window.street_comboBox.setCurrentIndex(-1)
+        window.city_comboBox.setCurrentIndex(-1)
+        window.responsible_comboBox.setCurrentIndex(-1)
+        window.line_date_of_creation_before.clear()
+        window.line_date_of_creation_after.clear()
+        window.line_cloxing_date_before.clear()
+        window.line_closing_date_after.clear()
+        if self.user_role == 'admin':
+            self.view_admin_data_of_applications()
+        elif self.user_role == 'dispatcher':
+            self.view_dispatcher_data()
+        else:
+            self.view_user_data()
+
+    def filtration_data(self, window):
+        status = window.status_comboBox.currentText()
+        region = window.region_comboBox.currentText()
+        city = window.city_comboBox.currentText()
+        street = window.street_comboBox.currentText()
+        responsible = window.responsible_comboBox.currentText()
+        date_of_creation_ot = window.line_date_of_creation_after.text()
+        date_of_creation_do = window.line_date_of_creation_before.text()
+        closing_date_ot = window.line_closing_date_after.text()
+        closing_date_do = window.line_cloxing_date_before.text()
         dispatcher_id = self.user_id
 
         if self.check_date_filtration(date_of_creation_ot, date_of_creation_do):
@@ -632,11 +801,16 @@ class ApplicationProject(QMainWindow):
 
         dict_query = {i: dict_query[i] for i in dict_query.keys() if len(str(dict_query[i])) != 0}
 
-        if status != "Новая" and len(dict_query) != 0:
+        if status != "Новая" and len(dict_query) != 0 and self.user_role == 'dispatcher':
             dict_query["responsible_mngr"] = dispatcher_id
 
         if len(dict_query) != 0:
-            self.view_dispatcher_data(params=dict_query)
+            if self.user_role == 'dispatcher':
+                self.view_dispatcher_data(params=dict_query)
+            elif self.user_role == 'admin':
+                self.view_admin_data_of_applications(params=dict_query)
+            else:
+                self.view_user_data(params=dict_query)
 
     def open_dispatcher_application_processing_window(self):
         self.app_processing = QtWidgets.QMainWindow()
@@ -647,11 +821,11 @@ class ApplicationProject(QMainWindow):
             self.ui_app_processing.responsibleComboBox.addItem(i)
 
         try:
-            index_apps = self.ui_dispatcher_window.tableView.selectedIndexes()[0]
+            index_apps = self.ui_dispatcher_window.tableView_applications.selectedIndexes()[0]
         except:
             self.open_select_error()
             return
-        id = self.ui_dispatcher_window.tableView.model().data(index_apps)
+        id = self.ui_dispatcher_window.tableView_applications.model().data(index_apps)
         cursor = self.conn.cursor
         sql_query = f"SELECT description, status, responsible, region, city, street, house_number, room, city_type FROM applications WHERE application_id={id}"
         cursor.execute(sql_query)
@@ -711,8 +885,8 @@ class ApplicationProject(QMainWindow):
         self.view_dispatcher_data()
 
     def edit_dispatcher_application(self):
-        index = self.ui_dispatcher_window.tableView.selectedIndexes()[0]
-        id = self.ui_dispatcher_window.tableView.model().data(index)
+        index = self.ui_dispatcher_window.tableView_applications.selectedIndexes()[0]
+        id = self.ui_dispatcher_window.tableView_applications.model().data(index)
 
         description = self.ui_app_processing.text_description.toPlainText()
         region = self.ui_app_processing.region_comboBox.currentText()
@@ -742,15 +916,16 @@ class ApplicationProject(QMainWindow):
 
         self.app_processing.close()
 
-    def view_user_data(self, filter=None):
+    def view_user_data(self, params=None):
         cursor = self.conn.cursor
 
-        table_view = self.ui_user_window.tableView
+        table_view = self.ui_user_window.tableView_applications
 
-        if filter is None or filter == 'Все' or filter == '':
-            sql_query = f"SELECT application_id, status, fio, description, address, responsible, TO_CHAR(date_of_creation, 'DD MM YYYY'), TO_CHAR(date_of_adoption, 'DD MM YYYY'), TO_CHAR(closing_date, 'DD MM YYYY') FROM applications WHERE creator = '{self.user_id}'"
+        if params is not None:
+            string_query_dict = ' and '.join([f"{k}='{v}'" for k, v in params.items()])
+            sql_query = f"SELECT application_id, status, fio, description, address, responsible, TO_CHAR(date_of_creation, 'DD MM YYYY'), TO_CHAR(date_of_adoption, 'DD MM YYYY'), TO_CHAR(closing_date, 'DD MM YYYY') FROM applications WHERE creator = '{self.user_id}' and " + string_query_dict
         else:
-            sql_query = f"SELECT application_id, status, fio, description, address, responsible, TO_CHAR(date_of_creation, 'DD MM YYYY'), TO_CHAR(date_of_adoption, 'DD MM YYYY'), TO_CHAR(closing_date, 'DD MM YYYY') FROM applications WHERE status = '{filter}' and creator = '{self.user_id}'"
+            sql_query = f"SELECT application_id, status, fio, description, address, responsible, TO_CHAR(date_of_creation, 'DD MM YYYY'), TO_CHAR(date_of_adoption, 'DD MM YYYY'), TO_CHAR(closing_date, 'DD MM YYYY') FROM applications WHERE creator = '{self.user_id}'"
 
         cursor.execute(sql_query)
         headers = ['№ заявки', 'Статус', 'ФИО заявителя', 'Описание', 'Адрес', 'Ответственный', 'Дата создания',
@@ -812,6 +987,17 @@ class ApplicationProject(QMainWindow):
         self.income_error_window.show()
 
         self.ui_income_error_window.exit_btm.clicked.connect(self.income_error_window.close)
+
+    def open_permission_error_window(self):
+        self.permission_error_window = QtWidgets.QMainWindow()
+        self.ui_permission_error_window = permission_error_MainWindow()
+        self.ui_permission_error_window.setupUi(self.permission_error_window)
+
+        self.permission_error_window.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
+
+        self.permission_error_window.show()
+
+        self.ui_permission_error_window.exit_btm.clicked.connect(self.permission_error_window.close)
 
     def open_padding_error_window(self):
         self.padding_error_window = QtWidgets.QMainWindow()
@@ -893,27 +1079,105 @@ class ApplicationProject(QMainWindow):
         self.income.close()
 
         self.user_window = QtWidgets.QMainWindow()
-        self.ui_user_window = user_MainWindow()
+        self.ui_user_window = main_form_MainWindow()
         self.ui_user_window.setupUi(self.user_window)
 
+        self.wndw = self.ui_user_window
+
         self.view_user_data()
-        self.ui_user_window.filtrationComboBox.setCurrentIndex(-1)
+        self.fill_responsible_combobox(self.ui_user_window)
+        self.ui_user_window.status_comboBox.setCurrentIndex(-1)
+        self.ui_user_window.responsible_comboBox.setCurrentIndex(-1)
+
         self.ui_user_window.filtrationFrame.installEventFilter(self)
 
-        self.ui_user_window.menuBar.setStyleSheet("color: white; font-size: 10pt; font-family: Arial;")
+        self.fill_combobox(self.ui_user_window.region_comboBox, self.get_region())
+        self.ui_user_window.region_comboBox.currentIndexChanged.connect(
+            lambda f: self.update_cities_by_region(window=self.ui_user_window)
+        )
+        self.ui_user_window.city_comboBox.currentIndexChanged.connect(
+            lambda f: self.update_streets_by_city(window=self.ui_user_window)
+        )
+        self.ui_user_window.city_radioButton.clicked.connect(
+            lambda f: self.update_cities_by_radioButton("Город", self.ui_user_window)
+        )
+        self.ui_user_window.locality_radioButton.clicked.connect(
+            lambda f: self.update_cities_by_radioButton("Населенный пункт", self.ui_user_window)
+        )
+
+        self.ui_user_window.menubar.setStyleSheet("""
+                    QMenuBar {
+                        color: white;
+                        font-size: 10pt;
+                        font-family: Arial;
+                    }
+
+                    QMenuBar::item:selected {
+                        background-color: rgb(69, 91, 133);
+                        font-size: 10pt;
+                        font-family: Arial;
+                    }
+
+                    QMenu {
+                        background-color: rgb(69, 91, 133);
+                        color: white;
+                        font-size: 10pt;
+                        font-family: Arial;
+                    }
+
+                    QMenu::item:selected {
+                        background-color: rgb(69, 91, 133);
+                        color: rgb(210, 226, 250);
+                    }
+                """)
+        self.ui_user_window.menu_2.setTitle(self.login)
         self.ui_user_window.about_as_action.triggered.connect(self.open_program_info_window)
         self.ui_user_window.logout_action.triggered.connect(
             lambda f: self.logout_program(self.user_window)
         )
+        self.ui_user_window.add_user_panel.triggered.connect(self.open_permission_error_window)
+        
+        self.ui_user_window.simple_filtration_2.triggered.connect(
+            lambda f: self.simple_filtration(self.ui_user_window)
+        )
+        self.ui_user_window.advanced_filtration_2.triggered.connect(
+            lambda f: self.advanced_filtration(self.ui_user_window)
+        )
+
+        self.ui_user_window.frame_3.hide()
+        self.ui_user_window.processingUserButton.hide()
+        self.ui_user_window.processingAppButton.setText("Редактировать заявку")
+        self.ui_user_window.reportsAppsButton.setText("Акт о выполненной заявке")
 
         self.user_window.show()
 
-        self.ui_user_window.tableView.doubleClicked.connect(self.open_user_edit_application_window)
+        self.create_calendar_date_of_creation_after()
+        self.create_calendar_date_of_creation_before()
+        self.create_calendar_closing_date_after()
+        self.create_calendar_closing_date_before()
 
-        self.ui_user_window.filtrationButton.clicked.connect(self.user_filtration)
-        self.ui_user_window.createApplicationButton.clicked.connect(self.open_user_create_application_window)
-        self.ui_user_window.editApplicationButton.clicked.connect(self.open_user_edit_application_window)
-        self.ui_user_window.workReportButton.clicked.connect(self.user_create_and_open_report)
+        self.ui_user_window.line_date_of_creation_after.mousePressEvent = self.show_calendar_date_of_creation_after
+        self.calendar_date_of_creation_after.clicked.connect(self.set_date_of_creation_after)
+        self.ui_user_window.line_date_of_creation_before.mousePressEvent = self.show_calendar_date_of_creation_before
+        self.calendar_date_of_creation_before.clicked.connect(self.set_date_of_creation_before)
+        self.ui_user_window.line_closing_date_after.mousePressEvent = self.show_calendar_closing_date_after
+        self.calendar_closing_date_after.clicked.connect(self.set_closing_date_after)
+        self.ui_user_window.line_cloxing_date_before.mousePressEvent = self.show_calendar_closing_date_before
+        self.calendar_closing_date_before.clicked.connect(self.set_closing_date_before)
+
+        self.ui_user_window.tableView_applications.doubleClicked.connect(
+            self.open_user_edit_application_window)
+
+        self.ui_user_window.filtrationBtn.clicked.connect(
+            lambda f: self.filtration_data(self.ui_user_window)
+        )
+        self.ui_user_window.reset_filtrationBtn.clicked.connect(
+            lambda f: self.reset_filtration(self.ui_user_window)
+        )
+
+        self.ui_user_window.createAppButton.clicked.connect(self.open_user_create_application_window)
+        self.ui_user_window.processingAppButton.clicked.connect(self.open_user_edit_application_window)
+        self.ui_user_window.reportsAppsButton.clicked.connect(self.user_create_and_open_report)
 
     def open_user_create_application_window(self):
         self.create_app_window = QtWidgets.QMainWindow()
@@ -1041,11 +1305,11 @@ class ApplicationProject(QMainWindow):
         self.ui_edit_app_window.setupUi(self.edit_app_window)
 
         try:
-            index_apps = self.ui_user_window.tableView.selectedIndexes()[0]
+            index_apps = self.ui_user_window.tableView_applications.selectedIndexes()[0]
         except:
             self.open_select_error()
             return
-        id = self.ui_user_window.tableView.model().data(index_apps)
+        id = self.ui_user_window.tableView_applications.model().data(index_apps)
 
         cursor = self.conn.cursor
         sql_query = f"SELECT description, fio, region, city, street, house_number, room, city_type FROM applications WHERE application_id={id}"
@@ -1088,10 +1352,6 @@ class ApplicationProject(QMainWindow):
         self.edit_app_window.close()
         self.view_user_data()
 
-    def user_filtration(self):
-        filter_category = self.ui_user_window.filtrationComboBox.currentText()
-        self.view_user_data(filter_category)
-
     def add_new_user(self):
         full_name = self.ui_reg_window.line_full_name.text()
         login = self.ui_reg_window.line_login.text()
@@ -1133,8 +1393,8 @@ class ApplicationProject(QMainWindow):
         self.create_app_window.close()
 
     def user_edit_application(self):
-        index = self.ui_user_window.tableView.selectedIndexes()[0]
-        id = str(self.ui_user_window.tableView.model().data(index))
+        index = self.ui_user_window.tableView_applications.selectedIndexes()[0]
+        id = str(self.ui_user_window.tableView_applications.model().data(index))
 
         description = self.ui_edit_app_window.text_app.toPlainText()
         fio = self.ui_edit_app_window.line_fio.text()
@@ -1156,11 +1416,11 @@ class ApplicationProject(QMainWindow):
 
     def user_create_and_open_report(self):
         try:
-            index = self.ui_user_window.tableView.selectedIndexes()[0]
+            index = self.ui_user_window.tableView_applications.selectedIndexes()[0]
         except:
             self.open_select_error()
             return
-        number_app = self.ui_user_window.tableView.model().data(index)
+        number_app = self.ui_user_window.tableView_applications.model().data(index)
 
         cursor = self.conn.cursor
         sql_query = f"SELECT fio, date_of_creation, responsible_mngr, responsible, creator, address, description, status FROM applications WHERE application_id = '{number_app}'"

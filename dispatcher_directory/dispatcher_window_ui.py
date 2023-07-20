@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'despatcher-windowRyESyM.ui'
+## Form generated from reading UI file 'despatcher-windowKaBonk.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.1
 ##
@@ -36,6 +36,14 @@ class Ui_MainWindow(object):
         self.about_as_action.setObjectName(u"about_as_action")
         self.logout_action = QAction(MainWindow)
         self.logout_action.setObjectName(u"logout_action")
+        self.action1 = QAction(MainWindow)
+        self.action1.setObjectName(u"action1")
+        self.action2 = QAction(MainWindow)
+        self.action2.setObjectName(u"action2")
+        self.action1_2 = QAction(MainWindow)
+        self.action1_2.setObjectName(u"action1_2")
+        self.action2_2 = QAction(MainWindow)
+        self.action2_2.setObjectName(u"action2_2")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
@@ -318,6 +326,7 @@ class Ui_MainWindow(object):
         self.tableView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableView.setStyleSheet(u"QTableView{\n"
                                      "color: white;\n"
+                                     "background-color: rgb(127, 131, 132);\n"
                                      "border-bottom-right-radius: 7px;\n"
                                      "border-bottom-left-radius: 7px;\n"
                                      "gridline-color:white;\n"
@@ -387,13 +396,18 @@ class Ui_MainWindow(object):
         self.help_menu.setObjectName(u"help_menu")
         self.menu = QMenu(self.menuBar)
         self.menu.setObjectName(u"menu")
+        self.menuuwu = QMenu(self.menuBar)
+        self.menuuwu.setObjectName(u"menuuwu")
         MainWindow.setMenuBar(self.menuBar)
 
         self.menuBar.addAction(self.program_menu.menuAction())
         self.menuBar.addAction(self.menu.menuAction())
+        self.menuBar.addAction(self.menuuwu.menuAction())
         self.program_menu.addAction(self.help_menu.menuAction())
         self.help_menu.addAction(self.about_as_action)
         self.menu.addAction(self.logout_action)
+        self.menuuwu.addAction(self.action1_2)
+        self.menuuwu.addAction(self.action2_2)
 
         self.retranslateUi(MainWindow)
 
@@ -409,6 +423,13 @@ class Ui_MainWindow(object):
         self.logout_action.setText(QCoreApplication.translate("MainWindow",
                                                               u"\u0412\u044b\u0439\u0442\u0438 \u0438\u0437 \u0443\u0447\u0435\u0442\u043d\u043e\u0439 \u0437\u0430\u043f\u0438\u0441\u0438",
                                                               None))
+        self.action1.setText(QCoreApplication.translate("MainWindow", u"1", None))
+        self.action2.setText(QCoreApplication.translate("MainWindow", u"2", None))
+        self.action1_2.setText(
+            QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0441\u0442\u0430\u044f", None))
+        self.action2_2.setText(QCoreApplication.translate("MainWindow",
+                                                          u"\u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u043d\u0430\u044f",
+                                                          None))
         self.label.setText(QCoreApplication.translate("MainWindow",
                                                       u"\u0424\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u044f \u0437\u0430\u044f\u0432\u043e\u043a",
                                                       None))
@@ -477,4 +498,7 @@ class Ui_MainWindow(object):
         self.menu.setTitle(QCoreApplication.translate("MainWindow",
                                                       u"\u0423\u0447\u0435\u0442\u043d\u0430\u044f \u0437\u0430\u043f\u0438\u0441\u044c",
                                                       None))
+        self.menuuwu.setTitle(
+            QCoreApplication.translate("MainWindow", u"\u0424\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u044f",
+                                       None))
     # retranslateUi

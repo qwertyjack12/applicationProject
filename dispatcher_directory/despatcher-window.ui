@@ -505,6 +505,7 @@ background-color: rgdargba(255, 255, 255, 70);
            <property name="styleSheet">
             <string notr="true">QTableView{
 color: white;
+background-color: rgb(127, 131, 132);
 border-bottom-right-radius: 7px;
 border-bottom-left-radius: 7px;
 gridline-color:white;
@@ -618,8 +619,16 @@ background-color: rgdargba(255, 255, 255, 70);
     </property>
     <addaction name="logout_action"/>
    </widget>
+   <widget class="QMenu" name="menuuwu">
+    <property name="title">
+     <string>Фильтрация</string>
+    </property>
+    <addaction name="action1_2"/>
+    <addaction name="action2_2"/>
+   </widget>
    <addaction name="program_menu"/>
    <addaction name="menu"/>
+   <addaction name="menuuwu"/>
   </widget>
   <action name="about_as_action">
    <property name="text">
@@ -629,6 +638,26 @@ background-color: rgdargba(255, 255, 255, 70);
   <action name="logout_action">
    <property name="text">
     <string>Выйти из учетной записи</string>
+   </property>
+  </action>
+  <action name="action1">
+   <property name="text">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="action2">
+   <property name="text">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="action1_2">
+   <property name="text">
+    <string>Простая</string>
+   </property>
+  </action>
+  <action name="action2_2">
+   <property name="text">
+    <string>Расширенная</string>
    </property>
   </action>
  </widget>

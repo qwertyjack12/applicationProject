@@ -110,6 +110,7 @@ class Ui_MainWindow(object):
         self.tableView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableView.setStyleSheet(u"QTableView{\n"
                                      "color: white;\n"
+                                     "background-color: rgb(127, 131, 132);\n"
                                      "border: 2px solid rgda(255, 255, 255, 30);\n"
                                      "border-bottom-right-radius: 7px;\n"
                                      "border-bottom-left-radius: 7px;\n"

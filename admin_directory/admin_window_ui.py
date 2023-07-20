@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'admin-windowjzAgPQ.ui'
+## Form generated from reading UI file 'admin-windowbJiNhG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.1
 ##
@@ -37,6 +37,10 @@ class Ui_MainWindow(object):
         self.about_as_action.setObjectName(u"about_as_action")
         self.logout_action = QAction(MainWindow)
         self.logout_action.setObjectName(u"logout_action")
+        self.action_3 = QAction(MainWindow)
+        self.action_3.setObjectName(u"action_3")
+        self.action_4 = QAction(MainWindow)
+        self.action_4.setObjectName(u"action_4")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_7 = QVBoxLayout(self.centralwidget)
@@ -262,7 +266,7 @@ class Ui_MainWindow(object):
         self.tableView_users.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableView_users.setStyleSheet(u"QTableView{\n"
                                            "color: white;\n"
-                                           "border: 2px solid rgda(255, 255, 255, 30);\n"
+                                           "background-color: rgb(127, 131, 132);\n"
                                            "border-bottom-right-radius: 7px;\n"
                                            "border-bottom-left-radius: 7px;\n"
                                            "gridline-color:white;\n"
@@ -276,11 +280,6 @@ class Ui_MainWindow(object):
                                            "color: black;\n"
                                            "font-size: 16px;\n"
                                            "font-family: Arial;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QTableView::item{\n"
-                                           "border: none;\n"
-                                           "border-bottom: rgda(255,255,255,50);\n"
                                            "}\n"
                                            "\n"
                                            "QTableView::item:selected{\n"
@@ -323,7 +322,7 @@ class Ui_MainWindow(object):
         self.tableView_applications.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableView_applications.setStyleSheet(u"QTableView{\n"
                                                   "color: white;\n"
-                                                  "border: 2px solid rgda(255, 255, 255, 30);\n"
+                                                  "background-color: rgb(127, 131, 132);\n"
                                                   "border-bottom-right-radius: 7px;\n"
                                                   "border-bottom-left-radius: 7px;\n"
                                                   "gridline-color:white;\n"
@@ -453,13 +452,21 @@ class Ui_MainWindow(object):
         self.help_menu.setObjectName(u"help_menu")
         self.menu = QMenu(self.menuBar)
         self.menu.setObjectName(u"menu")
+        self.menu_2 = QMenu(self.menuBar)
+        self.menu_2.setObjectName(u"menu_2")
+        self.menu_3 = QMenu(self.menu_2)
+        self.menu_3.setObjectName(u"menu_3")
         MainWindow.setMenuBar(self.menuBar)
 
         self.menuBar.addAction(self.program_menu.menuAction())
         self.menuBar.addAction(self.menu.menuAction())
+        self.menuBar.addAction(self.menu_2.menuAction())
         self.program_menu.addAction(self.help_menu.menuAction())
         self.help_menu.addAction(self.about_as_action)
         self.menu.addAction(self.logout_action)
+        self.menu_2.addAction(self.menu_3.menuAction())
+        self.menu_3.addAction(self.action_3)
+        self.menu_3.addAction(self.action_4)
 
         self.retranslateUi(MainWindow)
 
@@ -475,6 +482,9 @@ class Ui_MainWindow(object):
         self.logout_action.setText(QCoreApplication.translate("MainWindow",
                                                               u"\u0412\u044b\u0439\u0442\u0438 \u0438\u0437 \u0443\u0447\u0435\u0442\u043d\u043e\u0439 \u0437\u0430\u043f\u0438\u0441\u0438",
                                                               None))
+        self.action_3.setText(
+            QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
+        self.action_4.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0431\u0440\u0430\u0442\u044c", None))
         # if QT_CONFIG(whatsthis)
         self.frame.setWhatsThis(
             QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
@@ -528,4 +538,10 @@ class Ui_MainWindow(object):
         self.menu.setTitle(QCoreApplication.translate("MainWindow",
                                                       u"\u0423\u0447\u0435\u0442\u043d\u0430\u044f \u0437\u0430\u043f\u0438\u0441\u044c",
                                                       None))
+        self.menu_2.setTitle(
+            QCoreApplication.translate("MainWindow", u"\u0424\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u044f",
+                                       None))
+        self.menu_3.setTitle(QCoreApplication.translate("MainWindow",
+                                                        u"\u041f\u0430\u043d\u0435\u043b\u044c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439",
+                                                        None))
     # retranslateUi
